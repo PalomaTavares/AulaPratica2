@@ -4,6 +4,9 @@ from test_suit import TestSuite
 from test_suit_test import TestSuiteTest
 from test_spy import TestSpy
 from test_stub import TestStub
+from test_loader_test import TestLoaderTest
+from test_loader import TestLoader
+from test_runner import TestRunner
 
 class TestCaseTest(TestCase):
     def set_up(self):
@@ -55,22 +58,8 @@ class TestCaseTest(TestCase):
 
 
 if __name__ == '__main__':
-    result = TestResult()
-    suite = TestSuite()
+    loader = TestLoader()
+    suite = loader.make_suite(TestLoaderTest)
 
-    suite.add_test(TestCaseTest('test_result_success_run'))
-    suite.add_test(TestCaseTest('test_result_failure_run'))
-    suite.add_test(TestCaseTest('test_result_error_run'))
-    suite.add_test(TestCaseTest('test_result_multiple_run'))
-    suite.add_test(TestCaseTest('test_was_set_up'))
-    suite.add_test(TestCaseTest('test_was_run'))
-    suite.add_test(TestCaseTest('test_was_tear_down'))
-    suite.add_test(TestCaseTest('test_template_method'))
-
-    suite.add_test(TestSuiteTest('test_suite_size'))
-    suite.add_test(TestSuiteTest('test_suite_success_run'))
-    suite.add_test(TestSuiteTest('test_suite_multiple_run'))
-    
-    suite.run(result)
-
-    print(result.summary())
+    runner = TestRunner()
+    runner.run(suite)
