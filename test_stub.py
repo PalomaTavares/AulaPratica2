@@ -1,5 +1,7 @@
-class TestStub(TestCase):
+from test_framework import TestCase
 
+
+class TestStub(TestCase):
     def test_success(self):
         assert True
 

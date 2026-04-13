@@ -1,37 +1,9 @@
 from test_framework import TestCase
 from test_result import TestResult
-
-class TestStub(TestCase):
-    def test_success(self):
-        pass
-    
-    def test_failure(self):
-        assert False
-    
-    def test_error(self):
-        raise Exception("Test error")
-
-
-class TestSpy(TestCase):
-    def __init__(self, test_method_name):
-        super().__init__(test_method_name)
-        self.was_set_up = False
-        self.was_run = False
-        self.was_tear_down = False
-        self.log = ""
-    
-    def set_up(self):
-        self.was_set_up = True
-        self.log += "set_up "
-    
-    def test_method(self):
-        self.was_run = True
-        self.log += "test_method "
-    
-    def tear_down(self):
-        self.was_tear_down = True
-        self.log += "tear_down"
-
+from test_suit import TestSuite
+from test_suit_test import TestSuiteTest
+from test_spy import TestSpy
+from test_stub import TestStub
 
 class TestCaseTest(TestCase):
     def set_up(self):
@@ -84,29 +56,21 @@ class TestCaseTest(TestCase):
 
 if __name__ == '__main__':
     result = TestResult()
+    suite = TestSuite()
+
+    suite.add_test(TestCaseTest('test_result_success_run'))
+    suite.add_test(TestCaseTest('test_result_failure_run'))
+    suite.add_test(TestCaseTest('test_result_error_run'))
+    suite.add_test(TestCaseTest('test_result_multiple_run'))
+    suite.add_test(TestCaseTest('test_was_set_up'))
+    suite.add_test(TestCaseTest('test_was_run'))
+    suite.add_test(TestCaseTest('test_was_tear_down'))
+    suite.add_test(TestCaseTest('test_template_method'))
+
+    suite.add_test(TestSuiteTest('test_suite_size'))
+    suite.add_test(TestSuiteTest('test_suite_success_run'))
+    suite.add_test(TestSuiteTest('test_suite_multiple_run'))
     
-    test = TestCaseTest('test_result_success_run')
-    test.run(result)
-    
-    test = TestCaseTest('test_result_failure_run')
-    test.run(result)
-    
-    test = TestCaseTest('test_result_error_run')
-    test.run(result)
-    
-    test = TestCaseTest('test_result_multiple_run')
-    test.run(result)
-    
-    test = TestCaseTest('test_was_set_up')
-    test.run(result)
-    
-    test = TestCaseTest('test_was_run')
-    test.run(result)
-    
-    test = TestCaseTest('test_was_tear_down')
-    test.run(result)
-    
-    test = TestCaseTest('test_template_method')
-    test.run(result)
-    
+    suite.run(result)
+
     print(result.summary())

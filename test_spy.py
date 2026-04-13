@@ -1,3 +1,6 @@
+from test_framework import TestCase
+
+
 class TestSpy(TestCase):
 
     def __init__(self, name):
